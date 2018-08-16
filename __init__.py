@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 dictionary = {0: "", 1: "", 2: "тысяч", 3: "миллион", 4: "миллиард", 5: "триллион"}
 
 thousandrules = { "000": "тысяча", "005": "тысяч"
@@ -17,7 +15,7 @@ dictdecimals = {"2": "двадцать", "3": "тридцать",
      "8": "восемьдесят",
      "9": "девяносто"}
 
-dictunits = {"1": "один", "2": "два", "3": "три", "4": "четыре", "5": "пять",
+dictunits = {"00": "", "1": "один", "2": "два", "3": "три", "4": "четыре", "5": "пять",
     "6": "шесть", "7": "семь",
     "8": "восемь", "9": "девять", "01": "один", "02": "два", "03": "три",
     "04": "четыре", "05": "пять", "06": "шесть", "07": "семь",
@@ -53,6 +51,7 @@ def subnumbfem(input):
     result += " " + dictunitsfem[suffix]
     return result
 
+
 def subnumb(input):
     result = ""
     if input == "000":
@@ -67,6 +66,29 @@ def subnumb(input):
     result += " " + dictunits[suffix]
     return result
 
+def full(input):
+    delim=-2
+    try:
+        delim = input.index(".")
+    except ValueError:
+        delim =-1
+    if delim == -1:
+        return numbers(input)+cents(".00")
+    else:
+        return numbers(input[0:delim])+cents(input[delim:delim+3])
+
+
+def cents(input):
+    input = input.replace(".", "0")
+    if input.lower() == "000".lower():
+        return "00 копеек"
+    if input[1].lower() != '1'.lower():
+        if input[2].lower() == '1'.lower():
+            return subnumbfem(input) + " " +  "копейка"
+        if input[2].lower() == '2'.lower() or input[2].lower() == '3'.lower() or input[2].lower() == '4'.lower():
+            return subnumbfem(input) + " " + "копейки"
+    return subnumbfem(input) + " " + "копеек"
+
 
 def numbers(input_):
     input  = prepared(input_)
@@ -80,6 +102,24 @@ def numbers(input_):
             continue
         result += conjuntion(prefix, groups)
         groups -= 1
+    input__ = input[len(input)-3:len(input)]
+    print(input__)
+    if input__[1].lower() != '1'.lower():
+        print("flow1")
+        if input__[2].lower() == '1'.lower():
+            print("flow2")
+            result += " рубль"
+            return result
+        if input__[2].lower() == '2'.lower() or input__[2].lower() == '3'.lower() or input__[2].lower() == '4'.lower():
+            print("flow3")
+            result += " рубля"
+            return result
+        result += " рублей"
+        return result
+    else:
+        print("flow4")
+        result += " рублей"
+        return result
     print(result)
     return result
 
@@ -110,18 +150,10 @@ def prepared(input):
     if (rest == 3):
         return input
     result = ""
-
     while (rest != 0):
         rest -= 1
         result += "0"
-
     result += input
-
     return result
 
-numbers("2343")
-numbers("5151151")
-numbers("1151151")
-
-
-
+print(full("100.81"))
