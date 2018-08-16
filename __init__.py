@@ -157,3 +157,6 @@ def prepared(input):
     return result
 
 print(full("100.81"))
+
+g = "89"
+print(g[0])
