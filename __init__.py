@@ -156,7 +156,6 @@ def prepared(input):
     result += input
     return result
 
+print(subnumb("555"))
 print(full("100.81"))
 
-g = "89"
-print(g[0])
