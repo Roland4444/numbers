@@ -93,13 +93,19 @@ def cents(input):
 def numbers(input_):
     input  = prepared(input_)
     groups = len(input) // 3
+    print("groups==>", groups)
     result = ""
     iter=0
     while (groups!=0):
+        print("input", input)
+        print("iter", iter)
         prefix = input[iter:iter+3]
+        print("prefix",  prefix)
         iter += 3
         if subnumb(prefix) == "":
             continue
+        print("prefix, groups", prefix, groups)
+        print("conj" , conjuntion(prefix, groups))
         result += conjuntion(prefix, groups)
         groups -= 1
     input__ = input[len(input)-3:len(input)]
@@ -156,6 +162,8 @@ def prepared(input):
     result += input
     return result
 
-print(subnumb("555"))
-print(full("100.81"))
+
+print(full("100000000067.78"))
+
+
 
